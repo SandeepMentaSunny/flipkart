@@ -86,12 +86,13 @@ nav ul li span{
 }
 .email{
     width: 100%;
-    min-height: 180px;
+    min-height: 160px;
     background-color: #fff;
     border: 1px solid var(--border-color);
     margin: 15px 20px 0 0;
     cursor: pointer;
     border-radius: 10px;
+    padding: 10px;
 }
 .minimize-email{
     width: 95%;
@@ -260,13 +261,13 @@ ul.bottom-content li:last-child{
     border-radius: 8px;  
   }
   .w70 {
-     width: 70%;
+     width: 50%;
   }
   .card {
     border: 2px solid #fff;
     box-shadow: 0px 0px 10px 0 #a9a9a9;
-    padding: 30px 40px;
-    min-height: 120px;
+    padding: 15px 40px;
+    min-height: 160px;
     margin: 20px auto;
   }
   .profile-pic {
@@ -280,7 +281,8 @@ ul.bottom-content li:last-child{
     margin-top: 20px;
   }
   .wrapper {
-    width: 0px;
+    width: 100%;
+    padding: 30px 0;
     animation: fullView 0.5s forwards linear;
   }
   
@@ -309,7 +311,11 @@ ul.bottom-content li:last-child{
   }
   .shimmer-group .left-part-email{
       width: 10%;
+      margin: 0;
   }
   .shimmer-group .right-part-email{
       width: 85%;
   }
+.comment:first-child{
+    margin: 0;
+}

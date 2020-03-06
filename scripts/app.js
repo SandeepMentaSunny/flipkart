@@ -4,7 +4,7 @@ import { fetchEmailBody } from './modules/fetchEmailBody.js';
 import { toggleClassesForEmailList } from './modules/toggleCssClasses.js';
 import { generateEmailBody } from './modules/renderEmailBody.js';
 import { renderPagination } from './modules/renaderPagination.js';
-import { RenderShimmer, toggleClassOnShimmer } from './modules/RenderShimmer.js';
+import { RenderShimmerEmail, toggleClassOnShimmer } from './modules/RenderShimmerEmail.js';
 
 let apiParamsOnLoad = {
   pageNumber: 1
@@ -19,7 +19,7 @@ const shimmerGroup = document.querySelector('.shimmer-group');
 
 //Call fetchEmails function on document loaded
 document.addEventListener("DOMContentLoaded", e => {
-  const shimmer = RenderShimmer(10, shimmerGroup);
+  const shimmer = RenderShimmerEmail(10, shimmerGroup);
   toggleClassOnShimmer('add', shimmer);
   let data = FetchEmails(apiParamsOnLoad, apiUrl);
   data.then(res => {
@@ -43,8 +43,9 @@ function addClickEventToEmail(emails) {
           event.currentTarget.classList.add("active");
           const id = event.currentTarget.getAttribute("data-id");
           toggleClassesForEmailList(emails, id);
+          const emailBodyContent = document.querySelector('.email-body');
           let emailBody = fetchEmailBody(id, apiUrl);
-          emailBody.then((res) => generateEmailBody(res, totalEmails, emailListContent, emailsContent)).catch(err => console.error(err));
+          emailBody.then((res) => generateEmailBody(res, totalEmails, emailListContent, emailsContent, emailBodyContent.innerHTML.length === 0 ? 'firstEmail' : 'differentEmail')).catch(err => console.error(err));
         },
         true
       );

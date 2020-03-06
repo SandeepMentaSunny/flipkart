@@ -4,16 +4,17 @@ import {
   convertTimeStampToTime
 } from "./tags.js";
 import { addEventListenersToBtn } from './AddEventListeners.js';
+import { toggleClassOnShimmer } from './RenderShimmerEmail.js';
 
 let emailBodyFavoriteBtn;
-export function generateEmailBody(data, totalEmails, emailList, emailsContent) {
+export function generateEmailBody(data, totalEmails, emailList, emailsContent, type) {
   if (data !== null) {
     let { id, body } = data;
     //   const fragment = document.createDocumentFragment();
     let emailBody = document.createElement("div");
     let emailBodyTag = document.querySelector(".email-body");
-    if (emailBodyTag.innerText.length > 0) {
-      emailBodyTag.textContent = "";
+    if (emailBodyTag.innerHTML.length > 0) {
+      emailBodyTag.innerHTML = "";
     }
     emailBody.classList.add("email-body-content");
     const emailHeaderTag = document.createElement("div");
@@ -37,10 +38,10 @@ export function generateEmailBody(data, totalEmails, emailList, emailsContent) {
     timeTag.classList.add("email-body-timestamp");
     timeTag.innerText = convertTimeStampToTime(email[0].date);
     const emailContentTag = document.createElement("div");
-    if (emailBodyTag.classList.contains("hide")) {
+    if (emailBodyTag.classList.contains("hide") && type === 'firstEmail') {
       emailBodyTag.classList.remove("hide");
       emailBodyTag.classList.add("show");
-    } else {
+    } else if(type === 'firstEmail'){
       emailBodyTag.classList.add("hide");
       emailBodyTag.classList.remove("show");
     }

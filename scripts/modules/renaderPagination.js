@@ -27,9 +27,6 @@ export function renderPagination(totalPages, currentLength, apiParamsOnLoad, api
     pagination.appendChild(unOrderedList);
     prevButtonHandler = document.querySelector(".prev-btn");
     nextButtonHandler = document.querySelector(".next-btn");
-    if(apiParamsOnLoad.pageNumber === 1){
-        prevButtonHandler.setAttribute('disabled', true);
-    }
     nextButtonHandlerFunction(nextButtonHandler, apiParamsOnLoad, apiUrl, total);
     previousButtonHandlerFunction(prevButtonHandler, apiParamsOnLoad, apiUrl, total);
   }
