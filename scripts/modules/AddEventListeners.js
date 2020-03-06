@@ -28,7 +28,7 @@ export function addEventListenersToBtn(emailBodyFavoriteBtn, totalEmails) {
               window.localStorage.getItem("favorites")
             );
             const data = [...favoriteEmails];
-            localStorage = data;
+            localStorage.push(data);
             window.localStorage.setItem("favorites", JSON.stringify(data));
           } else {
             const localStorageData = [...favoriteEmails];
@@ -54,7 +54,7 @@ export function nextButtonHandlerFunction(nextBtn, apiParams, apiUrl, totalPages
     } else {
       e.target.setAttribute("disabled", false);
     }
-    const shimmer = RenderShimmerEmail(10, shimmerGroup);
+    const shimmer = RenderShimmerEmail(5, shimmerGroup);
     toggleClassOnShimmer('add', shimmer);
     emailList.innerHTML = '';
     FetchEmails(apiParams, apiUrl).then(res => {

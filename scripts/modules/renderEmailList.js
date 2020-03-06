@@ -30,7 +30,7 @@ export function RenderEmailList(emails, emailList) {
     senderIconTag.innerText = name[0].toUpperCase();
     emailElem.setAttribute("class", "email");
     const favoriteTag = document.createElement("button");
-    favoriteTag.innerText = emailData.favorite ? 'Added' : 'Favorite';
+    favoriteTag.innerText = emailData.favorite ? 'Added' : 'Mark as Favorite';
     // favoriteTag.setAttribute('class', emailData.favorite ? 'show' : 'hide');
     // favoriteTag.setAttribute('class', 'favorite-btn');
     favoriteTag.classList.add('favorite-btn', favoriteBtnClass);

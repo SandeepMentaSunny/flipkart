@@ -5,6 +5,7 @@ import { toggleClassesForEmailList } from './modules/toggleCssClasses.js';
 import { generateEmailBody } from './modules/renderEmailBody.js';
 import { renderPagination } from './modules/renaderPagination.js';
 import { RenderShimmerEmail, toggleClassOnShimmer } from './modules/RenderShimmerEmail.js';
+import { addEventListenersToBtn } from './modules/AddEventListeners.js';
 
 let apiParamsOnLoad = {
   pageNumber: 1
@@ -25,12 +26,12 @@ document.addEventListener("DOMContentLoaded", e => {
   data.then(res => {
       const { list, total } = res;
       totalEmails = list;
-      toggleClassOnShimmer('remove', shimmer);
       const data = RenderEmailList(totalEmails, emailList);
       emailListContent = data[`emailListContent`];
       emailsContent = data[`emailsContent`];
       addClickEventToEmail(emailsContent);
       renderPagination(total, list.length, apiParamsOnLoad, apiUrl);
+      toggleClassOnShimmer('remove', shimmer);
   }).catch(err => console.log(err));
 });
 
@@ -40,12 +41,16 @@ function addClickEventToEmail(emails) {
       email.addEventListener(
         "click",
         event => {
-          event.currentTarget.classList.add("active");
-          const id = event.currentTarget.getAttribute("data-id");
-          toggleClassesForEmailList(emails, id);
-          const emailBodyContent = document.querySelector('.email-body');
-          let emailBody = fetchEmailBody(id, apiUrl);
-          emailBody.then((res) => generateEmailBody(res, totalEmails, emailListContent, emailsContent, emailBodyContent.innerHTML.length === 0 ? 'firstEmail' : 'differentEmail')).catch(err => console.error(err));
+          if (event.target.type !== 'submit') {
+            event.currentTarget.classList.add("active");
+            const id = event.currentTarget.getAttribute("data-id");
+            toggleClassesForEmailList(emails, id);
+            const emailBodyContent = document.querySelector('.email-body');
+            let emailBody = fetchEmailBody(id, apiUrl);
+            emailBody.then((res) => generateEmailBody(res, totalEmails, emailListContent, emailsContent, emailBodyContent.innerHTML.length === 0 ? 'firstEmail' : 'differentEmail')).catch(err => console.error(err));
+          }else{
+            addClickEventToFavourite(event.target);
+          }
         },
         true
       );
@@ -53,16 +58,13 @@ function addClickEventToEmail(emails) {
   }
 }
 
-function addClickEventToFavourite() {
-  const favoriteButtons = document.querySelectorAll(".favorite-btn");
-  for (let favorite of favoriteButtons) {
-    favorite.addEventListener(
-      "click",
-      event => {
-        event.stopPropagation();
-        favoriteEmails.add(event.target.getAttribute("data-id"));
-      },
-      false
-    );
-  }
+function addClickEventToFavourite(favoriteButton) {
+  // const favoriteEmail = totalEmails.filter(email => {
+  //   if(email.id === favoriteButton.getAttribute('data-id')){
+  //     return email;
+  //   }
+  // });
+  // favoriteEmails.add(favoriteEmail);
+  addEventListenersToBtn(favoriteButton, totalEmails);
+  console.log(favoriteEmails);
 }

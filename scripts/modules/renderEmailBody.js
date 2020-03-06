@@ -26,6 +26,7 @@ export function generateEmailBody(data, totalEmails, emailList, emailsContent, t
     const timeTag = document.createElement("p");
     const favoriteTag = document.createElement("button");
     favoriteTag.classList.add("email-body-favorite-btn");
+    favoriteTag.setAttribute('type', 'button');
     const emailContain = totalEmails.filter(email => email.id === data.id);
     favoriteTag.innerText = emailContain[0].favorite
       ? "Added"

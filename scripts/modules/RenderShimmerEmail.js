@@ -35,8 +35,7 @@ export function RenderShimmerEmail(numberOfShimmers, shimmerNode){
 
 export function toggleClassOnShimmer(cssClass, shimmer){
     if(cssClass === 'remove'){
-        shimmer.classList.remove('show');
-        shimmer.classList.add('hide');
+        shimmer.innerHTML = '';
     }else{
         shimmer.classList.remove('hide');
         shimmer.classList.add('show');
