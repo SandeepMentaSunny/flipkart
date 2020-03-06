@@ -4,6 +4,7 @@ import { fetchEmailBody } from './modules/fetchEmailBody.js';
 import { toggleClassesForEmailList } from './modules/toggleCssClasses.js';
 import { generateEmailBody } from './modules/renderEmailBody.js';
 import { renderPagination } from './modules/renaderPagination.js';
+import { RenderShimmer, toggleClassOnShimmer } from './modules/RenderShimmer.js';
 
 let apiParamsOnLoad = {
   pageNumber: 1
@@ -14,13 +15,17 @@ let totalEmails = [];
 let emailsContent = [];
 let favoriteEmails = new Set();
 let emailListContent = '';
+const shimmerGroup = document.querySelector('.shimmer-group');
 
 //Call fetchEmails function on document loaded
 document.addEventListener("DOMContentLoaded", e => {
+  const shimmer = RenderShimmer(10, shimmerGroup);
+  toggleClassOnShimmer('add', shimmer);
   let data = FetchEmails(apiParamsOnLoad, apiUrl);
   data.then(res => {
       const { list, total } = res;
       totalEmails = list;
+      toggleClassOnShimmer('remove', shimmer);
       const data = RenderEmailList(totalEmails, emailList);
       emailListContent = data[`emailListContent`];
       emailsContent = data[`emailsContent`];
