@@ -35,6 +35,13 @@ export function RenderEmailList(emails, emailList) {
     // favoriteTag.setAttribute('class', 'favorite-btn');
     favoriteTag.classList.add('favorite-btn', favoriteBtnClass);
     favoriteTag.setAttribute("data-id", id);
+    favoriteTag.addEventListener('click', (e) => {
+      if(e.innerText === 'Mark as Favorite'){
+        dataLocalStorage(e);
+      }else{
+        dataLocalStorage(e);
+      }
+    });
     const fromTag = createFromTag(name, email, id);
     const subjectTag = createSubjectTag(subject, id);
     const descriptionTag = document.createElement("p");
@@ -64,4 +71,8 @@ export function RenderEmailList(emails, emailList) {
   //   addClickEventToEmail(emailsContent);
   //   addClickEventToFavourite();
   return { emailListContent: emailList, emailsContent };
+}
+
+function dataLocalStorage(data){
+  console.log(data);
 }

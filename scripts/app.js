@@ -3,10 +3,8 @@ import { RenderEmailList } from './modules/renderEmailList.js';
 import { fetchEmailBody } from './modules/fetchEmailBody.js';
 import { toggleClassesForEmailList } from './modules/toggleCssClasses.js';
 import { generateEmailBody } from './modules/renderEmailBody.js';
-import { renderPagination } from './modules/renaderPagination.js';
 import { RenderShimmerEmail, toggleClassOnShimmer } from './modules/RenderShimmerEmail.js';
-import { addEventListenersToBtn } from './modules/AddEventListeners.js';
-
+import { addEventListenersToBtn, previousButtonHandlerFunction, nextButtonHandlerFunction } from './modules/AddEventListeners.js';
 let apiParamsOnLoad = {
   pageNumber: 1
 };
@@ -17,6 +15,7 @@ let emailsContent = [];
 let favoriteEmails = new Set();
 let emailListContent = '';
 const shimmerGroup = document.querySelector('.shimmer-group');
+let prevBtn, nextBtn, paginationText;
 
 //Call fetchEmails function on document loaded
 document.addEventListener("DOMContentLoaded", e => {
@@ -24,14 +23,24 @@ document.addEventListener("DOMContentLoaded", e => {
   toggleClassOnShimmer('add', shimmer);
   let data = FetchEmails(apiParamsOnLoad, apiUrl);
   data.then(res => {
-      const { list, total } = res;
+      let { list, total } = res;
       totalEmails = list;
       const data = RenderEmailList(totalEmails, emailList);
       emailListContent = data[`emailListContent`];
       emailsContent = data[`emailsContent`];
+      total = total > 10 ? Math.round(total/10) : total; 
       addClickEventToEmail(emailsContent);
-      renderPagination(total, list.length, apiParamsOnLoad, apiUrl);
       toggleClassOnShimmer('remove', shimmer);
+      prevBtn = document.querySelector('.prev-btn');
+      nextBtn = document.querySelector('.next-btn');
+      paginationText = document.querySelector('.pagination-text');
+      prevBtn.addEventListener('click', (e) => {
+        previousButtonHandlerFunction(e, nextBtn, apiParamsOnLoad, apiUrl, paginationText, total);
+      });
+      nextBtn.addEventListener('click', (e) => {
+        nextButtonHandlerFunction(e, prevBtn, apiParamsOnLoad, apiUrl, total, paginationText);
+      });
+      prevBtn.setAttribute('disabled', true);
   }).catch(err => console.log(err));
 });
 
